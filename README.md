@@ -1,52 +1,18 @@
-# Using Hilt in your Android app
+# Generated components for Android classes
 
-This folder contains the source code for the "Using Hilt in your Android app" codelab.
+* `@InstallIn` annotation : injecting its bindings into the corresponding Android class.
 
-The codelab is built in multiple GitHub branches:
-* `main` is the codelab's starting point.
-* `solution` contains the solution to this codelab.
+# Hilt currently supports the following Android classes:
+* `Application` (by using `@HiltAndroidApp`)
+* `ViewModel` (by using `@HiltViewModel`)
+* `Activity`
+* `Fragment`
+* `View`
+* `Service`
+* `BroadcastReceiver`
 
+*Each Hilt component is considered a container with a different lifecycle, divided according to hierarchy, the component below can use the bindings of the component above it.*
 
-# Introduction
-Dependency injection is a technique widely used in programming and well suited
-to Android development. By following the principles of dependency injection, you
-lay the groundwork for a good app architecture.
+*By default, all bindings in Hilt are unscoped, This means that each time your app requests the binding, Hilt creates a new instance of the needed type.*
 
-Implementing dependency injection provides you with the following advantages:
-* Reusability of code.
-* Ease of refactoring.
-* Ease of testing.
-
-
-# Pre-requisites
-* Experience with Kotlin syntax.
-* You understand Dependency Injection.
-
-# Getting Started
-1. Install Android Studio, if you don't already have it.
-2. Download the sample.
-3. Import the sample into Android Studio.
-4. Build and run the sample.
-
-
-# Comparison between different branches
-* [Full codelab comparison](https://github.com/googlecodelabs/android-hilt/compare/main...solution)
-
-
-# License
-
-```
-Copyright (C) 2020 The Android Open Source Project
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    https://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-```
+*if you define a component as @Singleton,..., all bindings within that component will be scoped to singleton..... mean Hilt also allows a binding to be scoped to a particular component*
