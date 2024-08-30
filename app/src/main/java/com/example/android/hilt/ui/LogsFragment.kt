@@ -26,9 +26,11 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.hilt.R
+import com.example.android.hilt.data.DatabaseLogger
+import com.example.android.hilt.data.InMemoryLogger
 import com.example.android.hilt.data.Log
 import com.example.android.hilt.data.LogDao
-import com.example.android.hilt.data.LoggerLocalDataSource
+import com.example.android.hilt.data.LoggerDataSource
 import com.example.android.hilt.navigator.AppNavigator
 import com.example.android.hilt.util.DateFormatter
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,21 +42,23 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class LogsFragment : Fragment() {
 
+    @DatabaseLogger
     @Inject
-    lateinit var logger: LoggerLocalDataSource
+    lateinit var logger: LoggerDataSource
+
     @Inject
     lateinit var dateFormatter: DateFormatter
 
-    @Inject lateinit var navigator: AppNavigator
+    @Inject
+    lateinit var navigator: AppNavigator
 
-    @Inject lateinit var logDao: LogDao
+    @Inject
+    lateinit var logDao: LogDao
 
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_logs, container, false)
     }
@@ -70,11 +74,9 @@ class LogsFragment : Fragment() {
         super.onResume()
 
         logger.getAllLogs { logs ->
-            recyclerView.adapter =
-                LogsViewAdapter(
-                    logs,
-                    dateFormatter
-                )
+            recyclerView.adapter = LogsViewAdapter(
+                logs, dateFormatter
+            )
         }
     }
 }
@@ -83,8 +85,7 @@ class LogsFragment : Fragment() {
  * RecyclerView adapter for the logs list.
  */
 private class LogsViewAdapter(
-    private val logsDataSet: List<Log>,
-    private val daterFormatter: DateFormatter
+    private val logsDataSet: List<Log>, private val daterFormatter: DateFormatter
 ) : RecyclerView.Adapter<LogsViewAdapter.LogsViewHolder>() {
 
     class LogsViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView)
